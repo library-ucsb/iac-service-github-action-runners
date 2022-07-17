@@ -16,39 +16,46 @@
   roles:
 
     - role: library.core.yum_config
-      tags: [ 'yum', 'stage:init' ]
+      tags:
+        - role:gha_runners:init
+        - stage:init:yum
 
     - role: library.core.epel
-      tags: [ 'yum', 'stage:init' ]
+      tags: 
+        - role:gha_runners:init
+        - stage:init:epel
 
     - role: singleplatform-eng.users    
       tags: 
-        - user
-        - users
-        - groups
+        - stage:init:user
+        - stage:init:users
+        - stage:init:groups
 
     - role: ahuffman.sudoers
       tags: 
-        - sudo
-        - sudoers
+        - role:gha_runners:sudo
+        - role:gha_runners:sudoers
 
     - role: willshersystems.sshd
       tags: [ 'service:sshd', 'stage:init' ]
 
     - role: geerlingguy.ntp
       tags: 
-        - ntp
-        - ntpd
+        - role:gha_runners:ntp
+        - role:gha_runners:ntpd
         - never
 
     - role: sbaerlocher.snmp
-      tags: [ 'service:snmp', 'stage:init' ]
+      tags: 
+        - role:gha_runners:snmp
 
     - role: geerlingguy.firewall
-      tags: [ 'service:firewall', 'stage:init' ]
+      tags:
+        - role:gha_runners:firewall
 
     - role: geerlingguy.docker
-      tags: [ 'service:docker', 'docker', 'stage:init' ]
+      tags: 
+        - role:gha_runners:docker
 
     - role: monolithprojects.github_actions_runner
       environment:
@@ -56,9 +63,9 @@
         https_proxy: http://10.3.100.201:3128
         no_proxy: "vcenter.library.ucsb.edu,vsphere.library.ucsb.edu"
       tags:
-        - github
-        - github-actions
-        - github-actions-runner
+        - role:gha_runners:github
+        - role:gha_runners:github-actions
+        - role:gha_runners:github-actions-runner
 
   tasks:
      
@@ -69,19 +76,22 @@
         owner: root 
         group: root 
         mode: 0644
-      tags: [ 'service:docker', 'docker', 'stage:init' ]
+      tags:
+        - role:gha_runners:docker
 
     - name: reload systemd configs  
       ansible.builtin.systemd:
         daemon_reload: yes
         state: restarted
         name: docker.service
-      tags: [ 'service:docker', 'docker', 'stage:init' ]
+      tags:
+        - role:gha_runners:docker
 
 
     - name: ensure ansible is installed
       package:
         name: ansible
         state: latest
-      tags: [ 'service:ansible', 'ansible', 'stage:init' ]
+      tags:
+        - role:gha_runners:ansible
 

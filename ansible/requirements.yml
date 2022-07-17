@@ -3,8 +3,8 @@
 collections:
   - name: community.general
   - name: community.vmware
-  - name: git@github.com:ucsb/library-ansible-collections-core.git
-  - name: git@github.com:ucsb/library-ansible-collections-legacy.git
+  - name: git@github.com:library-ucsb/library-ansible-collections-core.git
+  - name: git@github.com:library-ucsb/library-ansible-collections-legacy.git
 
 roles:
   - name: willshersystems.sshd

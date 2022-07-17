@@ -1,5 +1,0 @@
-all:
-  children:
-    github_runner_node:
-      hosts:
-        10.3.60.33:
