@@ -1,0 +1,87 @@
+---
+- hosts: github_runner_node
+  become: yes
+
+  environment:
+    http_proxy: http://10.3.100.201:3128
+    https_proxy: http://10.3.100.201:3128
+
+  vars:
+    hide_sensitive_logs: false
+    docker_server_proxy_settings:
+      - "NO_PROXY=vcenter.library.ucsb.edu,vsphere.library.ucsb.edu"
+      - "HTTP_PROXY=http://10.3.100.201:3128"
+      - "HTTPS_PROXY=http://10.3.100.201:3128"
+
+  roles:
+
+    - role: library.core.yum_config
+      tags: [ 'yum', 'stage:init' ]
+
+    - role: library.core.epel
+      tags: [ 'yum', 'stage:init' ]
+
+    - role: singleplatform-eng.users    
+      tags: 
+        - user
+        - users
+        - groups
+
+    - role: ahuffman.sudoers
+      tags: 
+        - sudo
+        - sudoers
+
+    - role: willshersystems.sshd
+      tags: [ 'service:sshd', 'stage:init' ]
+
+    - role: geerlingguy.ntp
+      tags: 
+        - ntp
+        - ntpd
+        - never
+
+    - role: sbaerlocher.snmp
+      tags: [ 'service:snmp', 'stage:init' ]
+
+    - role: geerlingguy.firewall
+      tags: [ 'service:firewall', 'stage:init' ]
+
+    - role: geerlingguy.docker
+      tags: [ 'service:docker', 'docker', 'stage:init' ]
+
+    - role: monolithprojects.github_actions_runner
+      environment:
+        http_proxy: http://10.3.100.201:3128
+        https_proxy: http://10.3.100.201:3128
+        no_proxy: "vcenter.library.ucsb.edu,vsphere.library.ucsb.edu"
+      tags:
+        - github
+        - github-actions
+        - github-actions-runner
+
+  tasks:
+     
+    - name: construct docker systemd unit file with Environment Variables
+      ansible.builtin.template:
+        src: templates/docker.service.j2
+        dest: /usr/lib/systemd/system/docker.service
+        owner: root 
+        group: root 
+        mode: 0644
+      tags: [ 'service:docker', 'docker', 'stage:init' ]
+
+    - name: reload systemd configs  
+      ansible.builtin.systemd:
+        daemon_reload: yes
+        state: restarted
+        name: docker.service
+      tags: [ 'service:docker', 'docker', 'stage:init' ]
+
+
+    - name: ensure ansible is installed
+      package:
+        name: ansible
+        state: latest
+      tags: [ 'service:ansible', 'ansible', 'stage:init' ]
+

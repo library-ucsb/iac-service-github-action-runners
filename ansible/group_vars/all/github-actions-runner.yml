@@ -1,0 +1,24 @@
+---
+github_account:      "joshSpreston"
+github_owner:        "library-ucsb"
+access_token:        "{{ lookup('env', 'GITHUB_ACCESS_TOKEN') }}"
+runner_name:         "library-ucsb-org-actions-runner"
+runner_user:         "github"
+runner_dir:          "/opt/actions-runner-library-ucsb-org-actions-runner"
+runner_version:      "latest"
+runner_state:        "started"
+reinstall_runner:    no
+hide_sensitive_logs: yes
+github_url:          "https://github.com"
+github_api_url:      "https://api.github.com"
+
+runner_org: yes
+  
+    
+custom_env: |
+  http_proxy=http://10.3.100.201:3128
+  https_proxy=http://10.3.100.201:3128
+  HTTP_PROXY=http://10.3.100.201:3128
+  HTTPS_PROXY=http://10.3.100.201:3128
+  NO_PROXY="vcenter.library.ucsb.edu,vsphere.library.ucsb.edu"
+  no_proxy="vcenter.library.ucsb.edu,vsphere.library.ucsb.edu"

@@ -1,0 +1,6 @@
+cache/*
+ansible_collections/*
+roles/*
+logs/*
+data/*
+install/*

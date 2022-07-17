@@ -1,0 +1,23 @@
+---
+firewall_state: started
+firewall_enabled_at_boot: true
+
+firewall_allowed_udp_ports:
+  - "123"
+  - "161"
+
+firewall_allowed_tcp_ports:
+  - "443"
+  - "8443"
+
+firewall_additional_rules:
+  # SSH
+  - "iptables -A INPUT -p tcp --dport 22 -s 128.111.0.0/0 -j ACCEPT"
+  - "iptables -A INPUT -p tcp --dport 22 -s 10.3.0.0/0 -j ACCEPT"
+
+  # SNMP
+  - "iptables -A INPUT -p udp --dport 161 -s 10.3.0.0/16 -j ACCEPT"
+
+  # JIRA HTTP
+  - "iptables -A INPUT -p tcp --dport 8080 -s 10.3.0.0/16 -j ACCEPT"
+  - "iptables -A INPUT -p tcp --dport 8005 -s 10.3.0.0/16 -j ACCEPT"

@@ -1,0 +1,11 @@
+autofs_indirect_maps:
+  - name: autofs.jira
+    path: /mnt/nfs
+    options: "--ghost"
+    
+    mounts:
+      # jira-data-nfs
+      - name: 'jira-data-nfs'
+        fstype: 'nfs,rw,relatime,vers=3,rsize=65536,wsize=65536,namlen=255,hard,proto=tcp,timeo=600,retrans=2,sec=sys,mountaddr=10.3.10.102,mountvers=3,mountport=635,mountproto=udp,local_lock=none,addr=10.3.10.102'
+        url: '10.3.10.102:/apps_jira_shared'
+

@@ -1,0 +1,5 @@
+ntp_timezone: America/Los_Angeles
+ntp_manage_config: True
+ntp_servers:
+  - '10.3.3.44'
+  - '10.3.3.30'
