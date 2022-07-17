@@ -7,6 +7,10 @@ github_repo = {
   name                          = "iac-service-github-action-runners"
   visibility                    = "public"
   has_downloads                 = true
+  organization                  = "library-ucsb"
+  enforce_admins                = false
+  push_restrictions             = []
+  allows_force_pushes           = true
 }
 
 # namespace-environment-stage-name-attributes

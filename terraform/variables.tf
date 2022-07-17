@@ -10,11 +10,15 @@ variable "aws_region" {
 
 variable "github_repo" {
     type = object({
-        name            = string
-        description     = string 
-        auto_init       = bool
-        visibility      = string
-        has_downloads   = bool
+        name                        = string
+        description                 = string 
+        auto_init                   = bool
+        visibility                  = string
+        has_downloads               = bool
+        organization                = string
+        enforce_admins              = bool
+        allows_force_pushes         = bool
+        push_restrictions           = list(string)
     })  
 }
 
